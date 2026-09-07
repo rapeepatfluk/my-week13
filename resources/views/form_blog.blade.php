@@ -42,6 +42,6 @@
         @enderror
 
         <input type="submit" value="บันทึก" class="btn btn-success my-3">
-        <a href="/blog2" class="btn btn-primary my-3">กลับหน้าหลัก</a>
+        <a href="/authors/blog2" class="btn btn-primary my-3">กลับหน้าหลัก</a>
     </form>
 @endsection 

@@ -32,7 +32,8 @@ Route::get('student/{id}', function ($id) {
 
 Route::get('/abouts', [AdminController::class,'about2'])->name ("about2");
 // Route::get('/blogs' ,[AdminController::class,'blogs'])->name("blogs");
-Route::get('/blog2', [AdminController::class,'blog2'])->name("blog2");
+
+
 
 Route::get('/form', [AdminController::class,'create'])->name("create");
 Route::post('/insert', [AdminController::class,'insert'])->name("insert");
@@ -73,15 +74,16 @@ Route::get('/test-db', function () {
 Route::get('/delete/{id}', [AdminController::class, 'delete'])->name('delete');
 
 // เส้นทางสำหรับบันทึกข้อมูลบทความ
-Route::get('/form_blog', [AdminController::class,'createBlog'])->name("createBlog");
 Route::post('/insertBlog', [AdminController::class,'insertBlog'])->name("insertBlog");
 
+//authors
+Route::prefix('authors')->group(function(){
+Route::get('/form_blog', [AdminController::class,'createBlog'])->name("createBlog");
+Route::get('/blog2', [AdminController::class,'blog2'])->name("blog2");
 Route::get('/edit/{id}', [AdminController::class, 'edit'])->name('edit');
 Route::post('/update/{id}', [AdminController::class, 'update'])->name('update');
-
-
 Route::get('/change/{id}', [AdminController::class, 'change'])->name('change');
-
+});
 
 Auth::routes();
 

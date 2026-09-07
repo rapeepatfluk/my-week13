@@ -19,8 +19,8 @@
                     <tr class="table-warning text-center">
                         <th scope="col">ชื่อบทความ</th>
                         <th scope="col">เนื้อหาบทความ</th>
-                        <th scope="col">สถานะ</th>
-                        <th scope="col">จัดการ</th>
+                        <th scope="col" class="col-md-2">สถานะ</th>
+                        <th scope="col" >จัดการ</th>
                         <th scope="col">แก้ไข</th>
                     </tr>
                 </thead>

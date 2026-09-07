@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Blog;
 
 class AdminController extends Controller
 {
@@ -14,14 +15,14 @@ class AdminController extends Controller
     
     function blog2()
     {
-        $blog2 = DB::table("blogs")->paginate(10);
+        $blog2 = Blog::paginate(5);
         return view('blog2', compact('blog2'));
     }
 
     function delete($id){
         // dd(DB::table("blogs")->where("id", $id)->get());
-        DB::table("blogs")->where("id", $id)->delete();
-        return redirect('/blog2')->with("success", "ลบบทความเรียบร้อย");
+        Blog::find($id)->delete();
+        return redirect()->back()->with("success", "ลบบทความเรียบร้อย");
     }
 
 
@@ -74,7 +75,7 @@ class AdminController extends Controller
             'status.required' => 'กรุณาเลือกสถานะ',
         ]);
 
-        DB::table('blogs')->insert([
+        Blog::insert([
             'title' => $req->title,
             'content' => $req->content,
             'status' => $req->status,
@@ -82,11 +83,11 @@ class AdminController extends Controller
             'updated_at' => now(),
         ]);
 
-        return redirect('/blog2')->with('success', 'บันทึกบทความเรียบร้อย');
+        return redirect('/authors/blog2')->with('success', 'บันทึกบทความเรียบร้อย');
     }
     
     function edit($id){
-    $blog = DB::table("blogs")->where('id', $id)->first();
+    $blog = Blog::find($id);
     return view("edit", compact('blog'));
 }
 // function update(Request $request, $id)
@@ -117,17 +118,28 @@ function update(Request $request, $id)
         'status' => $request->status,
         'updated_at' => now(),
     ];
-    DB::table("blogs")->where('id', $id)->update($data);
-    return redirect('/blog2')->with('success', 'บันทึกแก้ไขแล้ว');
+    Blog::find($id)->update($data);
+    return redirect('/authors/blog2')->with('success', 'บันทึกแก้ไขแล้ว');
 }
 
 function change($id)
 {
-    $blog = DB::table("blogs")->where('id', $id)->first();
-    DB::table("blogs")->where('id', $id)->update([
-        'status' => !$blog->status,
-        'updated_at' => now()
-    ]);
+    $blog = Blog::find($id);
+    $data=[
+        'status' => $blog->status
+    ];
+    if($data['status'] == 0){
+        $data['status']= 1;
+    }
+    else{
+        $data['status'] = 0;
+    }
+    Blog::find($id)->update($data);
+    
+    // $blog->update([
+    //     'status' => !$blog->status,
+    //     'updated_at' => now()
+    // ]);
     return redirect()->back();
 }
 }
